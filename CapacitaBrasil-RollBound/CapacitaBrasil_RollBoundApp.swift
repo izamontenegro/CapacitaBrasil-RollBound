@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct CapacitaBrasil_RollBoundApp: App {
@@ -13,5 +14,6 @@ struct CapacitaBrasil_RollBoundApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: [Entity.self])
     }
 }

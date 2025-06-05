@@ -25,13 +25,24 @@ class EntityViewModel: ObservableObject {
         }
     }
     
-    // MARK: BUSCA DE ENTIDADES
-    func fetchEntity(context: ModelContext, type: EntityType) {
-        let descriptor = FetchDescriptor<Entity>(sortBy: [SortDescriptor(\.name)])
+    // MARK: BUSCAR ENTIDADES
+    func fetchAllEntities(context: ModelContext) {
+        let descriptor = FetchDescriptor<Entity>()
         do {
-            entities = try context.fetch(descriptor)
+            self.entities = try context.fetch(descriptor)
         } catch {
-            print("Falha ao buscar entidades: \(error)")
+            print("Erro ao buscar entidades: \(error)")
+        }
+    }
+    
+    func fetchEntitiesByType(context: ModelContext, type: EntityType) -> [Entity] {
+        let descriptor = FetchDescriptor<Entity>()
+        
+        do {
+            return try context.fetch(descriptor).filter { $0.type == type }
+        } catch {
+            print("Erro ao buscar entidades: \(error.localizedDescription)")
+            return []
         }
     }
     
@@ -61,69 +72,4 @@ class EntityViewModel: ObservableObject {
         }
     }
 
-}
-
-private struct EntityViewModelView: View {
-    @Environment(\.modelContext) var context
-    @StateObject var viewModel: EntityViewModel = EntityViewModel()
-    var body: some View {
-        VStack(alignment: .leading) {
-            
-            // MARK: ADICIONANDO ENTIDADE
-            HStack {
-                Button(action: {
-                    viewModel.createEntity(context: context, name: "Test Entity\(viewModel.entities.count + 1)", photo: nil, health: 90, defense: 50, type: .character)
-                }, label: {
-                    Text("Adicionar personagem")
-                })
-                .buttonStyle(.borderedProminent)
-                
-                Button(action: {
-                    viewModel.createEntity(context: context, name: "Test Entity\(viewModel.entities.count + 1)", photo: nil, health: 90, defense: 50, type: .initiative)
-                }, label: {
-                    Text("Adicionar iniciativa")
-                })
-                .buttonStyle(.borderedProminent)
-            }
-            
-            Spacer()
-            
-            // MARK: EDITANDO, REMOVENDO E **LISTANDO** ENTIDADES
-            Text("Entidades:")
-                .font(.title)
-            
-            ForEach(viewModel.entities) { entity in
-                HStack {
-                    VStack {
-                        // MARK: DADOS DA ENTIDADE
-                        Text(entity.name)
-                            .foregroundStyle(entity.type == .initiative ? .red : .green)
-                        Text(entity.health.description)
-                        Text(entity.defense.description)
-                        Text(entity.type.displayText)
-                        
-                    }
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        viewModel.deleteEntity(context: context, entity: viewModel.entities.first!)
-                    }, label: {
-                        Text("delete")
-                    })
-                    Button(action: {
-                        viewModel.updateEntity(context: context, entity: entity, name: "atualizado", photo: nil, health: 1000, defense: nil)
-                    }, label: {
-                        Text("edit")
-                    })
-                }
-            }
-            
-        }
-        .padding()
-    }
-}
-
-#Preview {
-    EntityViewModelView()
 }

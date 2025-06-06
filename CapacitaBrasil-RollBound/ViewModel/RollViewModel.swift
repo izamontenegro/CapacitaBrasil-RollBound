@@ -76,7 +76,6 @@ class RollViewModel: ObservableObject {
 }
 
 // MARK: VIEW DE TESTE (FUNÇÕES DA VM E EXIBICAO)
-
 struct RollView: View {
     @StateObject private var viewModel = RollViewModel.shared
     @Environment(\.modelContext) private var context

@@ -9,7 +9,11 @@ import SwiftUI
 import SwiftData
 
 class EntityViewModel: ObservableObject {
+    static let shared = EntityViewModel()
+    
     @Published var entities: [Entity] = []
+    
+    private init() { }
     
     // MARK: ADICIONAR NOVA ENTIDADE
     func createEntity(context: ModelContext, name: String, photo: Data?, health: Int, defense: Int, type: EntityType) {

@@ -12,8 +12,8 @@ import SwiftData
 struct CapacitaBrasil_RollBoundApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RollView()
         }
-        .modelContainer(for: [Entity.self])
+        .modelContainer(for: [Entity.self, Dice.self, Roll.self])
     }
 }

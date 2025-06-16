@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PrimaryButton: View {
+    @State var label: String
     @State var isActive: Bool = true
     var action: () -> Void
     
@@ -15,7 +16,7 @@ struct PrimaryButton: View {
         Button(action: {
             action()
         }, label: {
-            Text("Adicionar")
+            Text(label)
                 .lineLimit(1)
                 .font(.custom("Sora", size: 21))
                 .foregroundStyle(Color.AppColors.primary)
@@ -32,7 +33,9 @@ struct PrimaryButton: View {
 }
 
 #Preview {
-    PrimaryButton(action: {
+    @Previewable @State var label: String = "Adicionar"
+    
+    PrimaryButton(label: label, action: {
         print("Ação do botão!")
     })
 }

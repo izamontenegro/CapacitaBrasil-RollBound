@@ -41,7 +41,7 @@ enum EntityType: String, CaseIterable, Codable {
         case .character:
             return "Personagem"
         case .initiative:
-            return "Iniciativa"
+            return "Inimigo"
         }
     }
 }

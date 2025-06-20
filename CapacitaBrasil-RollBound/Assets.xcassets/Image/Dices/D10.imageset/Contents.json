@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "Dice Type=D20, Use=Dice List.svg",
+      "filename" : "Dice Type=D10, Use=Dice List.svg",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -20,6 +20,6 @@
   },
   "properties" : {
     "preserves-vector-representation" : true,
-    "template-rendering-intent" : "template"
+    "template-rendering-intent" : "original"
   }
 }

@@ -28,7 +28,7 @@ struct AddEntitySheet: View {
             Color.AppColors.primary
                 .ignoresSafeArea(.all)
             
-            VStack(spacing: 36) {
+            VStack(spacing: 35) {
                 ZStack {
                     PhotosPicker(
                         selection: $selectedItem,

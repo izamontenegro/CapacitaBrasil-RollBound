@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-struct DeleteSheet: View {
+struct DeleteEntitySheet: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) var dismiss
     @ObservedObject var entityViewModel = EntityViewModel.shared
@@ -62,5 +62,5 @@ struct DeleteSheet: View {
 
 #Preview {
     @Previewable @State var selectedEntity: Entity = Entity(name: "Joana", photo: nil, health: 90, defense: 30, type: .character)
-    DeleteSheet(selectedEntity: $selectedEntity)
+    DeleteEntitySheet(selectedEntity: $selectedEntity)
 }

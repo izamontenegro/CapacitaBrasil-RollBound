@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct DiceSelect: View {
+struct DiceSelector: View {
     @Binding var selectedDices: [DiceSides]
     @State private var tappedDice: DiceSides? = nil
     
@@ -59,5 +59,5 @@ struct DiceSelect: View {
 
 #Preview {
     @Previewable @State var selectedDices: [DiceSides] = []
-    DiceSelect(selectedDices: $selectedDices)
+    DiceSelector(selectedDices: $selectedDices)
 }

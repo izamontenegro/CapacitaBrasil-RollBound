@@ -7,16 +7,26 @@
 import SwiftUI
 
 struct CustomTextfield: View {
-    @State var fieldName: String
+    var fieldName: String
     @Binding var input: String
-    
-    
+
     var body: some View {
         VStack(alignment: .leading) {
-            TextField(fieldName, text: $input)
-                .foregroundStyle(Color.AppColors.unactive)
-                .font(.custom("Sora", size: 21))
-                .fontWeight(.bold)
+            ZStack(alignment: .leading) {
+                if input.isEmpty {
+                    Text(fieldName)
+                        .foregroundColor(Color.AppColors.active)
+                        .font(.custom("Sora", size: 21))
+                        .fontWeight(.bold)
+                }
+
+                TextField("", text: $input)
+                    .foregroundColor(Color.AppColors.active)
+                    .tint(.white)
+                    .font(.custom("Sora", size: 21))
+                    .fontWeight(.bold)
+            }
+
             Rectangle()
                 .foregroundStyle(Color.AppColors.unactive)
                 .frame(maxWidth: .infinity, maxHeight: 2)

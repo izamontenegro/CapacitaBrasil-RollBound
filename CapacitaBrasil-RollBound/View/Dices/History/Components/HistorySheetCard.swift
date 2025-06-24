@@ -12,7 +12,7 @@ struct HistoryCard: View {
     var body: some View {
         VStack(alignment: .center, spacing: 20) {
             HStack {
-                Text(diceDescription(for: roll))
+                Text(diceDescription(for: roll.dices))
                     .font(.custom("Sora", size: 18))
                     .fontWeight(.bold)
                     .foregroundStyle(Color.AppColors.active)
@@ -65,15 +65,5 @@ struct HistoryCard: View {
                 }
             }
         }
-    }
-    
-    func diceDescription(for roll: Roll) -> String {
-        let counts = Dictionary(grouping: roll.dices, by: { $0.numberOfSides })
-            .mapValues { $0.count }
-
-        let parts = counts.map { "\($0.value)\($0.key.rawValue)" }
-            .sorted()
-
-        return parts.joined(separator: " + ")
     }
 }

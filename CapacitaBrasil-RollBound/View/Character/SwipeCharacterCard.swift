@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct SwipeEntityCard: View {
+struct SwipeCharacterCard: View {
     @State var entity: Entity
     @State var onDelete: () -> Void
     @Binding var showEditSheet: Bool

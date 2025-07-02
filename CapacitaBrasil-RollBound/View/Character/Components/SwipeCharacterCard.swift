@@ -8,7 +8,7 @@ import SwiftUI
 
 struct SwipeCharacterCard: View {
     @State var entity: Entity
-    @State var onDelete: () -> Void
+    @Binding var showDeleteSheet: Bool
     @Binding var showEditSheet: Bool
     
     private let swipeThreshold: CGFloat = -90
@@ -20,7 +20,7 @@ struct SwipeCharacterCard: View {
             HStack {
                 Spacer()
                 Button(action: {
-                    onDelete()
+                    showDeleteSheet = true
                 }) {
                     HStack {
                         Text("Deletar")
@@ -95,7 +95,7 @@ struct SwipeCharacterCard: View {
                 Spacer()
                 
                 Button(action: {
-                  showEditSheet = true
+                    showEditSheet = true
                 }, label: {
                     Image("EditIcon")
                         .foregroundStyle(Color.AppColors.active)

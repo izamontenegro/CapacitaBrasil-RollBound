@@ -123,6 +123,10 @@ struct InitiativeView: View {
                                             wasDragged = true
                                         }
                                 )
+                                
+                                Rectangle()
+                                    .frame(maxWidth: .infinity, maxHeight: 4)
+                                    .foregroundStyle(Color.AppColors.secondary)
                             }
                         }
                     }

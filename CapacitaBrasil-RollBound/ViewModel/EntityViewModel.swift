@@ -20,7 +20,12 @@ class EntityViewModel: ObservableObject {
         let newEntity = Entity(name: name, photo: photo, health: health, defense: defense, type: type)
         
         entities.append(newEntity)
-        context.insert(newEntity)
+        
+        if newEntity.type == .initiative {
+            print("Personagem de iniciativa adicionada")
+        } else {
+            context.insert(newEntity)
+        }
         
         do {
             try context.save()

@@ -16,9 +16,11 @@ struct EditEntitySheet: View {
     
     @Binding var entity: Entity
     
-    @State var entityName: String
-    @State var hpValue: Int
-    @State var defenseValue: Int
+    @Binding var showDeleteSheet: Bool
+    
+    @State var entityName: String = ""
+    @State var hpValue: Int = 0
+    @State var defenseValue: Int = 0
     
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
@@ -74,7 +76,9 @@ struct EditEntitySheet: View {
                     HStack {
                         Button {
                             dismiss()
-                            entityViewModel.deleteEntity(context: context, entity: entity)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                showDeleteSheet = true
+                            }
                         } label: {
                             Image("TrashIcon")
                                 .foregroundStyle(Color.AppColors.red)
@@ -121,6 +125,11 @@ struct EditEntitySheet: View {
                 .id(entityName)
             }
             .padding(.horizontal)
+        }
+        .onAppear {
+            entityName = entity.name
+            hpValue = entity.health
+            defenseValue = entity.defense
         }
     }
 }

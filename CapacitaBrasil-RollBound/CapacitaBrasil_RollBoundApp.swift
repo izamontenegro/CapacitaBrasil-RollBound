@@ -12,7 +12,7 @@ import SwiftData
 struct CapacitaBrasil_RollBoundApp: App {
     var body: some Scene {
         WindowGroup {
-            DragReorderView()
+            RootView()
         }
         .modelContainer(for: [Entity.self, Dice.self, Roll.self, Skill.self])
     }

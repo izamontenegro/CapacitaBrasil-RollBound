@@ -76,8 +76,9 @@ struct EditEntitySheet: View {
                     HStack {
                         Button {
                             dismiss()
-                            showDeleteSheet = true
-                            print(showDeleteSheet)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                                showDeleteSheet = true
+                            }
                         } label: {
                             Image("TrashIcon")
                                 .foregroundStyle(Color.AppColors.red)

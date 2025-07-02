@@ -8,53 +8,24 @@
 import SwiftUI
 
 struct RootView: View {
+    @State private var selectedTab: Tab = .initiative
     
-    @State private var selectedTab: Tab = .dices
     var body: some View {
-        TabView(selection: $selectedTab) {
-            InitiativeView()
-                .tabItem {
-                    VStack {
-                        Image(selectedTab == .initiative ? "PaperFillIcon" : "PaperIcon")
-                            .renderingMode(.template)
-                        Text("Início")
-                            .font(.custom("Sora", size: 12))
-                            .fontWeight(.bold)
-                    }
+        ZStack(alignment: .bottom) {
+            Group {
+                switch selectedTab {
+                case .initiative:
+                    InitiativeView()
+                case .dices:
+                    EmptyView()
+                case .characters:
+                    EmptyView()
                 }
-                .tag(Tab.initiative)
+            }
             
-            InitiativeView()
-                .tabItem {
-                    VStack {
-                        Image(selectedTab == .dices ? "DiceFillIcon" : "DiceIcon")
-                            .renderingMode(.template)
-                        Text("Explorar")
-                            .font(.custom("Sora", size: 12))
-                            .fontWeight(.bold)
-                    }
-                   
-                }
-                .tag(Tab.dices)
-            
-            InitiativeView()
-                .tabItem {
-                    VStack {
-                        Image(selectedTab == .characters ? "GroupFillIcon" : "GroupIcon")
-                            .renderingMode(.template)
-                        Text("Perfil")
-                            .font(.custom("Sora", size: 12))
-                            .fontWeight(.bold)
-                    }
-                    .font(.custom("Sora", size: 13))
-                }
-                .tag(Tab.characters)
+            CustomTabBar(selectedTab: $selectedTab)
         }
     }
-}
-
-enum Tab {
-    case initiative, dices, characters
 }
 
 #Preview {

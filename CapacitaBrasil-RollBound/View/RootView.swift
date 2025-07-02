@@ -19,7 +19,7 @@ struct RootView: View {
                 case .dices:
                     EmptyView()
                 case .characters:
-                    EmptyView()
+                    CharactersView()
                 }
             }
             

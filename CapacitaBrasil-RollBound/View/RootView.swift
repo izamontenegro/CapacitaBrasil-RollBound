@@ -17,7 +17,7 @@ struct RootView: View {
                 case .initiative:
                     InitiativeView()
                 case .dices:
-                    EmptyView()
+                    DicesView()
                 case .characters:
                     CharactersView()
                 }

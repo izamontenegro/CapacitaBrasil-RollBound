@@ -53,7 +53,6 @@ struct DiceSelector: View {
             Color.AppColors.secondary
         }
         .cornerRadius(9)
-        .padding(40)
     }
 }
 

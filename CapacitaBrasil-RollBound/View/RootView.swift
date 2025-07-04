@@ -17,16 +17,18 @@ struct RootView: View {
                 case .initiative:
                     InitiativeView()
                 case .dices:
-                    EmptyView()
+                    DicesView()
                 case .characters:
                     CharactersView()
                 }
             }
-            
+
             CustomTabBar(selectedTab: $selectedTab)
         }
     }
 }
+
+
 
 #Preview {
     RootView()

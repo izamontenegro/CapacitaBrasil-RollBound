@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct DiceSelector: View {
-    @Binding var selectedDices: [DiceSides]
+    @Binding var selectedDices: [Dice]
     @State private var tappedDice: DiceSides? = nil
     
     private let columns = [
@@ -22,13 +22,13 @@ struct DiceSelector: View {
                 Button(action: {
                     tappedDice = side
                     withAnimation(.spring(response: 0.2, dampingFraction: 0.5)) {
-                        selectedDices.append(side)
+                        selectedDices.append(Dice(numberOfSides: side, rollValue: 0))
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         tappedDice = nil
                     }
                 }, label: {
-                    VStack {
+                    VStack(spacing: 5) {
                         Text(side.rawValue)
                             .font(.custom("Sora", size: 18))
                             .foregroundStyle(Color.AppColors.active)
@@ -36,8 +36,9 @@ struct DiceSelector: View {
                         Image(side.rawValue)
                             .resizable()
                             .scaledToFit()
+                            .frame(width: 50)
                     }
-                    .padding()
+                    .padding(24)
                     .background {
                         Color.AppColors.primary
                     }
@@ -53,11 +54,10 @@ struct DiceSelector: View {
             Color.AppColors.secondary
         }
         .cornerRadius(9)
-        .padding(40)
     }
 }
 
 #Preview {
-    @Previewable @State var selectedDices: [DiceSides] = []
+    @Previewable @State var selectedDices: [Dice] = []
     DiceSelector(selectedDices: $selectedDices)
 }

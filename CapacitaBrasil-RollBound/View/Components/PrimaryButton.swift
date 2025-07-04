@@ -21,7 +21,8 @@ struct PrimaryButton: View {
                 .font(.custom("Sora", size: 21))
                 .foregroundStyle(Color.AppColors.primary)
                 .fontWeight(.bold)
-                .padding()
+                .padding(.vertical, 11)
+                .padding(.horizontal, 22)
                 .background {
                     isActive ? Color.AppColors.active : Color.AppColors.unactive
                 }

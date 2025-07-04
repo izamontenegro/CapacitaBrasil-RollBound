@@ -22,11 +22,13 @@ struct RootView: View {
                     CharactersView()
                 }
             }
-            
+
             CustomTabBar(selectedTab: $selectedTab)
         }
     }
 }
+
+
 
 #Preview {
     RootView()

@@ -28,7 +28,7 @@ struct DiceSelector: View {
                         tappedDice = nil
                     }
                 }, label: {
-                    VStack {
+                    VStack(spacing: 5) {
                         Text(side.rawValue)
                             .font(.custom("Sora", size: 18))
                             .foregroundStyle(Color.AppColors.active)
@@ -36,8 +36,9 @@ struct DiceSelector: View {
                         Image(side.rawValue)
                             .resizable()
                             .scaledToFit()
+                            .frame(width: 50)
                     }
-                    .padding()
+                    .padding(24)
                     .background {
                         Color.AppColors.primary
                     }

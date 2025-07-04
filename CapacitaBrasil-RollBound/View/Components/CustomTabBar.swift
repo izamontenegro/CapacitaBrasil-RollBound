@@ -13,8 +13,9 @@ struct CustomTabBar: View {
         VStack {
             Spacer()
             HStack {
+                Spacer() 
+
                 ForEach(Tab.allCases, id: \.self) { tab in
-                    Spacer()
                     Button(action: {
                         selectedTab = tab
                     }) {

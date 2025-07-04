@@ -30,6 +30,7 @@ struct CustomTabBar: View {
                                 .foregroundColor(Color.AppColors.active)
                         }
                     }
+                    .frame(width: 100)
                     Spacer()
                 }
             }

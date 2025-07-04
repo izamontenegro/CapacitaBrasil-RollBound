@@ -76,10 +76,11 @@ struct SkillsSheet: View {
                                             Image(dice.numberOfSides.rawValue)
                                                 .resizable()
                                                 .scaledToFit()
-                                                .frame(width: 65)
+                                                .frame(width: 75)
                                         }
                                     }
                                 }
+                            
                                 .padding(.horizontal)
                             }
 

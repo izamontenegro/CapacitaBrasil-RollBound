@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct DiceSelector: View {
-    @Binding var selectedDices: [DiceSides]
+    @Binding var selectedDices: [Dice]
     @State private var tappedDice: DiceSides? = nil
     
     private let columns = [
@@ -22,7 +22,7 @@ struct DiceSelector: View {
                 Button(action: {
                     tappedDice = side
                     withAnimation(.spring(response: 0.2, dampingFraction: 0.5)) {
-                        selectedDices.append(side)
+                        selectedDices.append(Dice(numberOfSides: side, rollValue: 0))
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                         tappedDice = nil
@@ -58,6 +58,6 @@ struct DiceSelector: View {
 }
 
 #Preview {
-    @Previewable @State var selectedDices: [DiceSides] = []
+    @Previewable @State var selectedDices: [Dice] = []
     DiceSelector(selectedDices: $selectedDices)
 }

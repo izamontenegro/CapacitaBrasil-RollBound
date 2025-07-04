@@ -8,7 +8,13 @@
 import SwiftUI
 
 struct DicesView: View {
-    @State var selectedDices: [DiceSides] = []
+    @ObservedObject var skillViewModel = SkillViewModel.shared
+    @ObservedObject var rollViewModel = RollViewModel.shared
+    
+    @Environment(\.modelContext) var context
+    
+    @State var selectedDices: [Dice] = []
+    
     @State var showHistorySheet: Bool = false
     @State var showSkillsSheet: Bool = false
     @State var selectedSkillSheetTab: SkillTabOptions = .skills
@@ -41,7 +47,7 @@ struct DicesView: View {
                     .frame(maxHeight: 130)
                 } else {
                     VStack {
-                        Image(selectedDices.last?.rawValue ?? "Dice4")
+                        Image(selectedDices.last?.numberOfSides.rawValue ?? "Dice4")
                             .resizable()
                             .scaledToFit()
                             .frame(maxHeight: 130)
@@ -79,7 +85,7 @@ struct DicesView: View {
             })
             .sheet(isPresented: $showSkillsSheet, content: {
                 SkillsSheet(selectedTab: $selectedSkillSheetTab, selectedDices: selectedDices)
-                    .presentationDetents([.medium, .large])
+                    .presentationDetents([.fraction(0.7)])
             })
             .onChange(of: selectedDices, {
                 if selectedDices.isEmpty {
@@ -88,6 +94,10 @@ struct DicesView: View {
                     selectedSkillSheetTab = .save
                 }
             })
+            .onAppear {
+                skillViewModel.fetchAllSkills(context: context)
+                rollViewModel.fetchAllRolls(context: context)
+            }
         }
     }
 }

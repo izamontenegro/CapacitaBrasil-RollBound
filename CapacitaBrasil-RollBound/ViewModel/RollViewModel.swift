@@ -17,6 +17,7 @@ class RollViewModel: ObservableObject {
     @Published var currentValue: Int = 0
     @Published var currentDiceIndex: Int = -1
     @Published var isRolling: Bool = false
+    @Published var displayedValue: Int = 0
 
     private init() {}
 
@@ -44,33 +45,34 @@ class RollViewModel: ObservableObject {
     }
 
     // MARK: REALIZAR ROLAGEM
-    func rollDices(context: ModelContext) async {
+    func rollDices(context: ModelContext, dices: [DiceSides]) async {
         rolledDices = []
         currentDiceIndex = -1
         currentValue = 0
+        displayedValue = 0
         isRolling = true
         var total = 0
 
-        for (index, diceSide) in selectedDices.enumerated() {
-            currentDiceIndex = index
-            currentValue = 0
+        let reversedDices = dices.reversed()
 
-            try? await Task.sleep(nanoseconds: 500_000_000)
-
+        for (index, diceSide) in reversedDices.enumerated() {
+            currentDiceIndex = dices.count - 1 - index
+            displayedValue = 0 
             let max = Int(diceSide.rawValue) ?? 6
             let result = Int.random(in: 1...max)
-            currentValue = result
-
             let newDice = Dice(numberOfSides: diceSide, rollValue: result)
-            rolledDices.append(newDice)
-            total += result
+            rolledDices.insert(newDice, at: 0)
 
-            try? await Task.sleep(nanoseconds: 600_000_000)
+            try? await Task.sleep(nanoseconds: 300_000_000)
+            
+            displayedValue = result
+            total += result
+            currentValue = total
+
+            try? await Task.sleep(nanoseconds: 001_000_000_000)
         }
 
         createNewRoll(context: context, dices: rolledDices, total: total)
-
-        selectedDices.removeAll()
         isRolling = false
     }
 }
@@ -116,14 +118,14 @@ struct RollView: View {
                 }
             }
 
-            if !viewModel.isRolling {
-                Button("Rolar") {
-                    Task {
-                        await viewModel.rollDices(context: context)
-                    }
-                }
-                .disabled(viewModel.selectedDices.isEmpty)
-            }
+//            if !viewModel.isRolling {
+//                Button("Rolar") {
+//                    Task {
+//                        await viewModel.rollDices(context: context)
+//                    }
+//                }
+//                .disabled(viewModel.selectedDices.isEmpty)
+//            }
         }
         .onAppear {
             viewModel.fetchAllRolls(context: context)

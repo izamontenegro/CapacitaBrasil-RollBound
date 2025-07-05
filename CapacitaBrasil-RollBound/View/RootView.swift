@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RootView: View {
-    @State private var selectedTab: Tab = .initiative
+    @State private var selectedTab: Tab = .dices
     
     var body: some View {
         ZStack(alignment: .bottom) {

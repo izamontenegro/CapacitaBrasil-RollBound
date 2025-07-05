@@ -14,64 +14,122 @@ struct DicesView: View {
     @Environment(\.modelContext) var context
     
     @State var selectedDices: [Dice] = []
-    
     @State var showHistorySheet: Bool = false
     @State var showSkillsSheet: Bool = false
     @State var selectedSkillSheetTab: SkillTabOptions = .skills
-
+    
+    var isCurrentDiceIndexValid: Bool {
+        (0..<selectedDices.count).contains(rollViewModel.currentDiceIndex)
+    }
+    
     var body: some View {
         ZStack {
             Color.AppColors.primary.ignoresSafeArea(.all)
             
-            VStack() {
-                Text("Nova rolagem")
-                    .font(.custom("Sora", size: 22))
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color.AppColors.active)
-                    .padding()
-
-                DiceSelector(selectedDices: $selectedDices)
+            VStack {
+                if !rollViewModel.isRolling {
+                    Text("Nova rolagem")
+                        .font(.custom("Sora", size: 22))
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.AppColors.active)
+                        .padding()
+                    
+                    DiceSelector(selectedDices: $selectedDices)
+                } else {
+                    Text("Soma: \(rollViewModel.currentValue)")
+                        .font(.custom("Sora", size: 22))
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.AppColors.active)
+                        .padding(.top)
+                }
                 
                 Spacer()
                 
-                if selectedDices.isEmpty {
-                    VStack {
-                        Text("Selecione um Dado para Rolar")
-                            .font(.custom("Sora", size: 17))
-                            .fontWeight(.bold)
-                            .foregroundStyle(Color.AppColors.secondary)
-                        Image("DadosEmptyState")
-                            .resizable()
-                            .scaledToFit()
+                if rollViewModel.isRolling && isCurrentDiceIndexValid {
+                    Text("\(rollViewModel.displayedValue)")
+                        .font(.custom("Sora", size: 155))
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.AppColors.active)
+                        .frame(height: 180)
+                    
+                    ScrollViewReader { proxy in
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 60) {
+                                ForEach(Array(selectedDices.reversed().enumerated()), id: \.offset) { index, dice in
+                                    VStack(spacing: 12) {
+                                        Image(dice.numberOfSides.rawValue)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 130)
+                                            .opacity(index == rollViewModel.currentDiceIndex ? 1.0 : 0.4)
+                                        
+                                        Text(dice.numberOfSides.rawValue.uppercased())
+                                            .font(.custom("Sora", size: 14))
+                                            .foregroundStyle(index == rollViewModel.currentDiceIndex ? Color.AppColors.active : Color.AppColors.secondary)
+                                            .opacity(index == rollViewModel.currentDiceIndex ? 1.0 : 0.4)
+                                    }
+                                    .id(index)
+                                    .frame(width: 120)
+                                }
+                            }
+                            .padding(.horizontal, 40)
+                        }
+                        .frame(height: 260)
+                        .onAppear {
+                            scrollToLastDice(proxy: proxy)
+                        }
+                        .onChange(of: rollViewModel.currentDiceIndex) {
+                            scrollToCurrentDice(proxy: proxy)
+                        }
                     }
-                    .frame(maxHeight: 130)
-                } else {
-                    VStack {
-                        Image(selectedDices.last?.numberOfSides.rawValue ?? "Dice4")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(maxHeight: 130)
+                }
+                
+                if !rollViewModel.isRolling {
+                    if selectedDices.isEmpty {
+                        VStack {
+                            Text("Selecione um Dado para Rolar")
+                                .font(.custom("Sora", size: 17))
+                                .fontWeight(.bold)
+                                .foregroundStyle(Color.AppColors.secondary)
+                            Image("DadosEmptyState")
+                                .resizable()
+                                .scaledToFit()
+                        }
+                        .frame(maxHeight: 130)
+                    } else {
+                        VStack {
+                            Image(selectedDices.last?.numberOfSides.rawValue ?? "Dice4")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxHeight: 130)
+                        }
                     }
                 }
                 
                 Spacer()
-
-                HStack(spacing: 11) {
-                    Button(action: {
-                        showHistorySheet = true
-                    }, label: {
-                        Image("HistoryIcon")
-                    })
-                    
-                    PrimaryButton(label: "Rolar", isActive: !selectedDices.isEmpty, action: {
-                        // iniciar rolagem aqui
-                    })
-                    
-                    Button(action: {
-                        showSkillsSheet = true
-                    }, label: {
-                        Image("SaveIcon")
-                    })
+                
+                if !rollViewModel.isRolling {
+                    HStack(spacing: 11) {
+                        Button(action: {
+                            showHistorySheet = true
+                        }, label: {
+                            Image("HistoryIcon")
+                        })
+                        
+                        PrimaryButton(label: "Rolar", isActive: true, action: {
+                            Task {
+                                let sides = selectedDices.map { $0.numberOfSides }
+                                await rollViewModel.rollDices(context: context, dices: sides)
+                                selectedDices = []
+                            }
+                        })
+                        
+                        Button(action: {
+                            showSkillsSheet = true
+                        }, label: {
+                            Image("SaveIcon")
+                        })
+                    }
                 }
             }
             .frame(maxHeight: .infinity, alignment: .top)
@@ -79,29 +137,43 @@ struct DicesView: View {
             .safeAreaInset(edge: .bottom) {
                 Color.clear.frame(height: 60)
             }
-            .sheet(isPresented: $showHistorySheet, content: {
-                HistorySheet()
-                    .presentationDetents([.medium, .large])
-            })
-            .sheet(isPresented: $showSkillsSheet, content: {
-                SkillsSheet(selectedTab: $selectedSkillSheetTab, selectedDices: selectedDices)
-                    .presentationDetents([.fraction(0.7)])
-            })
-            .onChange(of: selectedDices, {
-                if selectedDices.isEmpty {
-                    selectedSkillSheetTab = .skills
-                } else {
-                    selectedSkillSheetTab = .save
-                }
-            })
+            .onChange(of: selectedDices) {
+                selectedSkillSheetTab = selectedDices.isEmpty ? .skills : .save
+            }
             .onAppear {
                 skillViewModel.fetchAllSkills(context: context)
                 rollViewModel.fetchAllRolls(context: context)
             }
+            
+            buildSheets()
         }
     }
-}
-
-#Preview {
-    DicesView()
+    
+    
+    private func scrollToCurrentDice(proxy: ScrollViewProxy) {
+        guard isCurrentDiceIndexValid else { return }
+        withAnimation(.easeInOut(duration: 0.3)) {
+            proxy.scrollTo(selectedDices.count - 1 - rollViewModel.currentDiceIndex, anchor: .center)
+        }
+    }
+    
+    private func scrollToLastDice(proxy: ScrollViewProxy) {
+        guard !selectedDices.isEmpty else { return }
+        withAnimation(.easeInOut(duration: 0.3)) {
+            proxy.scrollTo(selectedDices.count - 1, anchor: .trailing)
+        }
+    }
+    
+    @ViewBuilder
+    private func buildSheets() -> some View {
+        EmptyView()
+            .sheet(isPresented: $showHistorySheet) {
+                HistorySheet()
+                    .presentationDetents([.medium, .large])
+            }
+            .sheet(isPresented: $showSkillsSheet) {
+                SkillsSheet(selectedTab: $selectedSkillSheetTab, selectedDices: selectedDices)
+                    .presentationDetents([.fraction(0.7)])
+            }
+    }
 }

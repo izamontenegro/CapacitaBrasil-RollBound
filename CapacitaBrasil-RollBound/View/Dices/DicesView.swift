@@ -24,7 +24,7 @@ struct DicesView: View {
         ZStack {
             Color.AppColors.primary.ignoresSafeArea(.all)
             
-            VStack {
+            VStack(alignment: .center) {
                 DiceViewHeader(selectedDices: $selectedDices)
                 
                 Spacer()
@@ -49,22 +49,11 @@ struct DicesView: View {
                         }
                         .frame(maxHeight: 130)
                     } else {
-                        Image(selectedDices.last?.numberOfSides.rawValue ?? "Dice4")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(maxHeight: 130)
-                            .onTapGesture {
-                                withAnimation(.spring(response: 0.5, dampingFraction: 0.7)) {
-                                    selectedDices.removeLast()
-                                    return
-                                }
-                            }
-                            .transition(.asymmetric(
-                                insertion: .scale(scale: 0.6).combined(with: .opacity),
-                                removal: .scale(scale: 0.05).combined(with: .opacity)
-                            ))
-                            .animation(.spring(response: 0.5, dampingFraction: 0.7), value: selectedDices)
-                            .id(selectedDices.count)
+                            DiceSelectedCarouselView(
+                                selectedDices: $selectedDices,
+                                rollViewModel: rollViewModel
+                            )
+                        
                     }
                 }
                 
@@ -83,12 +72,15 @@ struct DicesView: View {
                 skillViewModel.fetchAllSkills(context: context)
                 rollViewModel.fetchAllRolls(context: context)
             }
+            .onDisappear {
+                rollViewModel.state = .idle
+            }
             .sheet(isPresented: $showHistorySheet) {
                 HistorySheet()
                     .presentationDetents([.medium, .large])
             }
             .sheet(isPresented: $showSkillsSheet) {
-                SkillsSheet(selectedTab: $selectedSkillSheetTab, selectedDices: selectedDices)
+                SkillsSheet(selectedTab: $selectedSkillSheetTab, selectedDices: $selectedDices)
                     .presentationDetents([.fraction(0.7)])
             }
         }

@@ -11,7 +11,6 @@ enum DiceRollState {
     case idle, rolling, finished
 }
 
-
 @MainActor
 class RollViewModel: ObservableObject {
     static let shared = RollViewModel()

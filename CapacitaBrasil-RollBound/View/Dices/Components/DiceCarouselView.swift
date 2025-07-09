@@ -6,16 +6,6 @@
 //
 import SwiftUI
 
-private struct CenteredDicePreferenceKey: PreferenceKey {
-    static var defaultValue: Int? = nil
-
-    static func reduce(value: inout Int?, nextValue: () -> Int?) {
-        if let next = nextValue() {
-            value = next
-        }
-    }
-}
-
 struct DiceCarouselView: View {
     @Binding var selectedDices: [Dice]
     @ObservedObject var rollViewModel: RollViewModel
@@ -109,6 +99,7 @@ struct DiceCarouselView: View {
                                 selectedDices.removeAll()
                                 rollViewModel.state = .idle
                             }
+                            .padding(.top)
                         }
                     }
                 }

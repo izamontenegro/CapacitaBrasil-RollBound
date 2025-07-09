@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct RootView: View {
-    @State private var selectedTab: Tab = .initiative
+    @State private var selectedTab: Tab = .dices
+    @ObservedObject var rollViewModel = RollViewModel.shared
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -23,7 +24,9 @@ struct RootView: View {
                 }
             }
 
-            CustomTabBar(selectedTab: $selectedTab)
+            if rollViewModel.state == .idle {
+                CustomTabBar(selectedTab: $selectedTab)
+            }
         }
     }
 }

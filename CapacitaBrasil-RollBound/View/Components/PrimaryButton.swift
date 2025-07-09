@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct PrimaryButton: View {
-    @State var label: String
-    @State var isActive: Bool = true
-    var action: () -> Void
+    let label: String
+    let isActive: Bool
+    let action: () -> Void
     
     var body: some View {
         Button(action: {
@@ -36,7 +36,7 @@ struct PrimaryButton: View {
 #Preview {
     @Previewable @State var label: String = "Adicionar"
     
-    PrimaryButton(label: label, action: {
+    PrimaryButton(label: label, isActive: true, action: {
         print("Ação do botão!")
     })
 }

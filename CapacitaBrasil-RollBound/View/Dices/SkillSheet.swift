@@ -18,7 +18,7 @@ struct SkillsSheet: View {
     @Environment(\.modelContext) var context
 
     @Binding var selectedTab: SkillTabOptions
-    @State var selectedDices: [Dice]
+    @Binding var selectedDices: [Dice]
     @State var skillName: String = ""
 
     var body: some View {
@@ -38,7 +38,10 @@ struct SkillsSheet: View {
                             VStack {
                                 ForEach(skillViewModel.skills, id: \.self) { skill in
                                     VStack {
-                                        Button(action: { }, label: {
+                                        Button(action: {
+                                            selectedDices = skill.dices
+                                            dismiss()
+                                        }, label: {
                                             SkillSheetCard(skill: skill)
                                         })
                                         .padding(.horizontal)

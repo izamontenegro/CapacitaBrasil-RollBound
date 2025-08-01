@@ -26,6 +26,7 @@ struct CustomTextfield: View {
                     .font(.custom("Sora", size: 21))
                     .fontWeight(.bold)
             }
+            .padding(.horizontal, 8)
 
             Rectangle()
                 .foregroundStyle(Color.AppColors.unactive)

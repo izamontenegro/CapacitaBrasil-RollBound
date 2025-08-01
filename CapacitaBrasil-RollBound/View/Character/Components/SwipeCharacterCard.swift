@@ -9,11 +9,18 @@ import SwiftUI
 struct SwipeCharacterCard: View {
     @State var entity: Entity
     @Binding var showDeleteSheet: Bool
-    @Binding var showEditSheet: Bool
+    
+    var editAction: () -> Void
     
     private let swipeThreshold: CGFloat = -90
     @State private var offsetX: CGFloat = 0
     @GestureState private var isDragging = false
+    
+    init(entity: Entity, showDeleteSheet: Binding<Bool>, editAction: @escaping () -> Void) {
+        self.entity = entity
+        self._showDeleteSheet = showDeleteSheet
+        self.editAction = editAction
+    }
     
     var body: some View {
         ZStack(alignment: .trailing) {
@@ -95,7 +102,7 @@ struct SwipeCharacterCard: View {
                 Spacer()
                 
                 Button(action: {
-                    showEditSheet = true
+                    editAction()
                 }, label: {
                     Image("EditIcon")
                         .foregroundStyle(Color.AppColors.active)

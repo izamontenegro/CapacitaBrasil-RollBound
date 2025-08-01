@@ -67,6 +67,7 @@ struct InitiativeView: View {
                                         wasDragged = false
                                     } else {
                                         selectedEntity = entity
+                                        showEditEntitySheet.toggle()
                                     }
                                 } label: {
                                     SwipeInitiativeCard(entity: entity)
@@ -132,47 +133,56 @@ struct InitiativeView: View {
                     }
                 }
             }
-        }
-        .overlay {
-            if showAddEntitySheet || showEditEntitySheet || showDeleteEntitySheet {
-                Color.black.opacity(0.4).ignoresSafeArea(.all)
+            .customSheet(isPresented: $showEditEntitySheet,
+                         actionType: .editStats,
+                         entity: selectedEntity ??
+                         Entity(name: "ERRO: Sem personagem, tente novamente", health: -99, defense: -99, type: .initiative)) {
+                entityViewModel.fetchAllEntities(context: context)
             }
+            .customSheet(isPresented: $showAddEntitySheet,
+                         actionType: .add,
+                         entityType: .initiative)
         }
+//        .overlay {
+//            if showAddEntitySheet || showEditEntitySheet || showDeleteEntitySheet {
+//                Color.black.opacity(0.4).ignoresSafeArea(.all)
+//            }
+//        }
         .onAppear {
             entityViewModel.fetchAllEntities(context: context)
         }
-        .sheet(item: $selectedEntity) { entity in
-            if let index = entityViewModel.entities.firstIndex(of: entity) {
-                EditEntitySheet(
-                    entity: $entityViewModel.entities[index],
-                    showDeleteSheet: Binding(
-                        get: { showDeleteEntitySheet },
-                        set: { newValue in
-                            if newValue {
-                                entityToDelete = entity
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    showDeleteEntitySheet = true
-                                }
-                            }
-                        }
-                    )
-                )
-                .presentationDetents([.fraction(0.7)])
-            }
-        }
-        .sheet(isPresented: $showAddEntitySheet) {
-            AddEntitySheet(entityType: .initiative)
-                .presentationDetents([.fraction(0.7)])
-        }
-        .sheet(isPresented: $showDeleteEntitySheet) {
-            if let entity = entityToDelete,
-               let index = entityViewModel.entities.firstIndex(of: entity) {
-                DeleteEntitySheet(selectedEntity: $entityViewModel.entities[index])
-                    .presentationDetents([.fraction(0.5)])
-            } else {
-                Text("Erro: entidade não disponível.")
-            }
-        }
+//        .sheet(item: $selectedEntity) { entity in
+//            if let index = entityViewModel.entities.firstIndex(of: entity) {
+//                EditEntitySheet(
+//                    entity: $entityViewModel.entities[index],
+//                    showDeleteSheet: Binding(
+//                        get: { showDeleteEntitySheet },
+//                        set: { newValue in
+//                            if newValue {
+//                                entityToDelete = entity
+//                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+//                                    showDeleteEntitySheet = true
+//                                }
+//                            }
+//                        }
+//                    )
+//                )
+//                .presentationDetents([.fraction(0.7)])
+//            }
+//        }
+//        .sheet(isPresented: $showAddEntitySheet) {
+//            AddEntitySheet(entityType: .initiative)
+//                .presentationDetents([.fraction(0.7)])
+//        }
+//        .sheet(isPresented: $showDeleteEntitySheet) {
+//            if let entity = entityToDelete,
+//               let index = entityViewModel.entities.firstIndex(of: entity) {
+//                DeleteEntitySheet(selectedEntity: $entityViewModel.entities[index])
+//                    .presentationDetents([.fraction(0.5)])
+//            } else {
+//                Text("Erro: entidade não disponível.")
+//            }
+//        }
     }
 
     private func calculateTargetIndex(from currentIndex: Int, drag: CGFloat) -> Int {

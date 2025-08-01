@@ -13,9 +13,9 @@ struct CharactersView: View {
 
     @State private var showAddEntitySheet = false
     @State private var showDeleteEntitySheet = false
+    @State private var showEditEntitySheet = false
 
     @State private var selectedEntity: Entity?
-    @State private var entityToDelete: Entity?
 
     var body: some View {
         ZStack {
@@ -52,22 +52,17 @@ struct CharactersView: View {
                                             get: { false },
                                             set: { newValue in
                                                 if newValue {
-                                                    entityToDelete = entity
-                                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                                        showDeleteEntitySheet = true
+                                                    selectedEntity = entity
+                                                    withAnimation {
+                                                        showDeleteEntitySheet = true   
                                                     }
                                                 }
                                             }
-                                        ),
-                                        showEditSheet: Binding(
-                                            get: { false },
-                                            set: { newValue in
-                                                if newValue {
-                                                    selectedEntity = entity
-                                                }
-                                            }
                                         )
-                                    )
+                                    ) {
+                                        selectedEntity = entity
+                                        showEditEntitySheet = true
+                                    }
                                 }
                                 
                                 Rectangle()
@@ -78,46 +73,56 @@ struct CharactersView: View {
                     }
                 }
             }
-
-            if showAddEntitySheet || showDeleteEntitySheet || selectedEntity != nil {
-                Color.black.opacity(0.4).ignoresSafeArea()
-            }
         }
         .onAppear {
             entityViewModel.fetchAllEntities(context: context)
         }
-        .sheet(item: $selectedEntity) { entity in
-            if let index = entityViewModel.entities.firstIndex(of: entity) {
-                EditEntitySheet(
-                    entity: $entityViewModel.entities[index],
-                    showDeleteSheet: Binding(
-                        get: { showDeleteEntitySheet },
-                        set: { newValue in
-                            if newValue {
-                                entityToDelete = entity
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                                    showDeleteEntitySheet = true
-                                }
-                            }
-                        }
-                    )
-                )
-                .presentationDetents([.fraction(0.7)])
-            }
+        .customSheet(isPresented: $showEditEntitySheet,
+                     actionType: .editAll,
+                     entity: selectedEntity ??
+                     Entity(name: "ERRO: Sem personagem, tente novamente", health: -99, defense: -99, type: .initiative)) {
+            entityViewModel.fetchAllEntities(context: context)
         }
-        .sheet(isPresented: $showAddEntitySheet) {
-            AddEntitySheet(entityType: .character)
-                .presentationDetents([.fraction(0.7)])
+        .customSheet(isPresented: $showAddEntitySheet,
+                     actionType: .add,
+                     entityType: .character)
+        .customDeleteSheet(isPresented: $showDeleteEntitySheet,
+                           entity: selectedEntity ??
+                           Entity(name: "ERRO: Sem personagem, tente novamente", health: -99, defense: -99, type: .initiative)) {
+            entityViewModel.fetchAllEntities(context: context)
         }
-        .sheet(isPresented: $showDeleteEntitySheet) {
-            if let entity = entityToDelete,
-               let index = entityViewModel.entities.firstIndex(of: entity) {
-                DeleteEntitySheet(selectedEntity: $entityViewModel.entities[index])
-                    .presentationDetents([.fraction(0.5)])
-            } else {
-                Text("Erro: entidade não disponível.")
-            }
-        }
+//        .sheet(item: $selectedEntity) { entity in
+//            if let index = entityViewModel.entities.firstIndex(of: entity) {
+//                EditEntitySheet(
+//                    entity: $entityViewModel.entities[index],
+//                    showDeleteSheet: Binding(
+//                        get: { showDeleteEntitySheet },
+//                        set: { newValue in
+//                            if newValue {
+//                                entityToDelete = entity
+//                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+//                                    showDeleteEntitySheet = true
+//                                }
+//                            }
+//                        }
+//                    )
+//                )
+//                .presentationDetents([.fraction(0.7)])
+//            }
+//        }
+//        .sheet(isPresented: $showAddEntitySheet) {
+//            AddEntitySheet(entityType: .character)
+//                .presentationDetents([.fraction(0.7)])
+//        }
+//        .sheet(isPresented: $showDeleteEntitySheet) {
+//            if let entity = entityToDelete,
+//               let index = entityViewModel.entities.firstIndex(of: entity) {
+//                DeleteEntitySheet(selectedEntity: $entityViewModel.entities[index])
+//                    .presentationDetents([.fraction(0.5)])
+//            } else {
+//                Text("Erro: entidade não disponível.")
+//            }
+//        }
     }
 }
 

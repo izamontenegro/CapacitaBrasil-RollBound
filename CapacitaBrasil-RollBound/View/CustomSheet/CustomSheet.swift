@@ -10,24 +10,28 @@ import PhotosUI
 
 
 extension View {
-    @ViewBuilder func customSheet(isPresented: Binding<Bool>, actionType: SheetActionType, entityType: EntityType) -> some View {
+    @ViewBuilder func customSheet(isPresented: Binding<Bool>, actionType: SheetActionType, entityType: EntityType, onDelete: @escaping () -> Void = {}) -> some View {
         
         self.privateCustomSheet(isPresented: isPresented,
                          actionType: actionType,
-                         entity: .init(name: "",
+                                entity: .init(name: "",
                                        health: 1,
                                        defense: 1,
-                                       type: entityType))
+                                              type: entityType)) {
+            onDelete()
+        }
     }
     
-    @ViewBuilder func customSheet(isPresented: Binding<Bool>, actionType: SheetActionType, entity: Entity) -> some View {
+    @ViewBuilder func customSheet(isPresented: Binding<Bool>, actionType: SheetActionType, entity: Entity, onDelete: @escaping () -> Void = {}) -> some View {
         
         self.privateCustomSheet(isPresented: isPresented,
                          actionType: actionType,
-                         entity: entity)
+                                entity: entity) {
+            onDelete()
+        }
     }
     
-    @ViewBuilder private func privateCustomSheet(isPresented: Binding<Bool>, actionType: SheetActionType, entity: Entity) -> some View {
+    @ViewBuilder private func privateCustomSheet(isPresented: Binding<Bool>, actionType: SheetActionType, entity: Entity, onDelete: @escaping () -> Void = {}) -> some View {
         ZStack {
             self
             
@@ -41,13 +45,35 @@ extension View {
             
             if isPresented.wrappedValue {
                 CustomSheet(entity: entity,
-                            actionType: .add) {
+                            actionType: actionType,
+                            onDelete: onDelete) {
                     withAnimation {
                         isPresented.wrappedValue = false
                     }
                 }
                             .ignoresSafeArea()
                 
+            }
+        }
+    }
+    
+    @ViewBuilder func customDeleteSheet(isPresented: Binding<Bool>, entity: Entity, onDelete: @escaping () -> Void) -> some View {
+        ZStack {
+            self
+            
+            if isPresented.wrappedValue {
+                Color.black.opacity(0.4)
+                    .ignoresSafeArea()
+                    .onTapGesture {
+                        isPresented.wrappedValue = false
+                    }
+            }
+            
+            if isPresented.wrappedValue {
+                DeletingSheet(entity: entity, isDeleting: isPresented) {
+                    onDelete()
+                }
+                    .transition(.move(edge: .bottom))
             }
         }
     }
@@ -61,21 +87,26 @@ struct CustomSheet: View {
     @ObservedObject var entityViewModel = EntityViewModel.shared
     @Environment(\.modelContext) var context
     
-    @State var entity: Entity
+    var entity: Entity
     let actionType: SheetActionType
+    let onDelete: () -> Void
     let onDismiss: () -> Void
     
     @State private var isDeleting: Bool = false
     
-    init(entity: Entity, actionType: SheetActionType, onDismiss: @escaping () -> Void) {
+    init(entity: Entity, actionType: SheetActionType, onDelete: @escaping () -> Void, onDismiss: @escaping () -> Void) {
         self.entity = entity
         self.actionType = actionType
+        self.onDelete = onDelete
         self.onDismiss = onDismiss
     }
     
     var body: some View {
         if isDeleting {
-            DeletingSheet(entity: entity, isDeleting: $isDeleting)
+            DeletingSheet(entity: entity, isDeleting: $isDeleting) {
+                onDelete()
+                onDismiss()
+            }
                 .transition(.move(edge: .bottom))
         } else {
             EntitySheet(entity: entity,
@@ -270,6 +301,8 @@ private struct DeletingSheet: View {
     var entity: Entity
     @Binding var isDeleting: Bool
     
+    var onDelete: () -> Void = {}
+    
     var body: some View {
         VStack {
             Spacer()
@@ -307,6 +340,12 @@ private struct DeletingSheet: View {
                                 // TODO: caso de erro
                                 print("Não consegui salvar a deleção")
                             }
+                            
+                            onDelete()
+                            
+                            withAnimation {
+                                isDeleting.toggle()
+                            }
                         } label: {
                             Text("Deletar")
                                 .font(.title2)
@@ -337,6 +376,7 @@ private struct DeletingSheet: View {
                 }
                 .padding(.vertical, 52)
                 .padding(.horizontal, 30)
+                .padding(.bottom, 20)
                 .foregroundStyle(Color.AppColors.active)
                 .frame(maxWidth: .infinity)
                 .background(
@@ -355,5 +395,5 @@ private struct DeletingSheet: View {
     Color.clear
         .customSheet(isPresented: $isShowingSheet,
                         actionType: .editStats,
-                        entityType: .initiative)
+                     entityType: .initiative, onDelete: {})
 }

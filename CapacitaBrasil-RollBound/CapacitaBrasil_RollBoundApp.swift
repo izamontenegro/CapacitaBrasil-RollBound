@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct CapacitaBrasil_RollBoundApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            RootView()
         }
+        .modelContainer(for: [Entity.self, Dice.self, Roll.self, Skill.self])
     }
 }

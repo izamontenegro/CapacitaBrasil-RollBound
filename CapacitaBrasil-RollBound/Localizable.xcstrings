@@ -1,0 +1,199 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "" : {
+
+    },
+    " da sua party e adicione " : {
+
+    },
+    " de rolagem e salve" : {
+
+    },
+    " Habilidades" : {
+
+    },
+    " Histórico" : {
+
+    },
+    " RollBound" : {
+
+    },
+    ", verifique seu" : {
+
+    },
+    "?" : {
+
+    },
+    ". permanente e irreversível. Tem certeza que deseja deletar " : {
+
+    },
+    "%@" : {
+
+    },
+    "%@?" : {
+
+    },
+    "%lld" : {
+
+    },
+    "Adicionar %@" : {
+
+    },
+    "Adicione Dados a fila para salvar a rolagem" : {
+
+    },
+    "Adicione os " : {
+
+    },
+    "Bem-Vindo ao" : {
+
+    },
+    "Cancelar" : {
+
+    },
+    "Comece a sua jornada no mundo dos Dados!" : {
+
+    },
+    "Controle a " : {
+
+    },
+    "da sua party e configure seus  " : {
+
+    },
+    "Dados" : {
+
+    },
+    "DEF" : {
+
+    },
+    "DEF: %@" : {
+
+    },
+    "Deletar" : {
+
+    },
+    "Deletar personagem" : {
+
+    },
+    "Deletar Personagem" : {
+
+    },
+    "e " : {
+
+    },
+    "Editar %@" : {
+
+    },
+    "Essa ação é " : {
+
+    },
+    "HP" : {
+
+    },
+    "HP: %@" : {
+
+    },
+    "Iniciativa" : {
+
+    },
+    "Inimigos" : {
+
+    },
+    "irreversível" : {
+
+    },
+    "irreversível. " : {
+
+    },
+    "Nova rolagem" : {
+
+    },
+    "permanente " : {
+
+    },
+    "Personagens" : {
+
+    },
+    "Personagens " : {
+
+    },
+    "player.count %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld players"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld japonés jogadores"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld jogadores"
+          }
+        }
+      }
+    },
+    "Role seis diferentes tipos de " : {
+
+    },
+    "Salvar" : {
+
+    },
+    "Selecione um Dado para Rolar" : {
+
+    },
+    "show.sheet" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show sheet"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Japones show sheet"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrar shit"
+          }
+        }
+      }
+    },
+    "Skills" : {
+
+    },
+    "Soma: %lld" : {
+
+    },
+    "Status" : {
+
+    },
+    "SUM: %lld" : {
+
+    },
+    "Tem certeza que deseja deletar " : {
+
+    },
+    "Ultimas %lld Rolagens" : {
+
+    },
+    "Você ainda não tem nenhuma Skill salva" : {
+
+    }
+  },
+  "version" : "1.0"
+}

@@ -1,0 +1,50 @@
+//
+//  .gitignore
+//  CapacitaBrasil-RollBound
+//
+//  Created by Izadora de Oliveira Albuquerque Montenegro on 12/06/25.
+//
+
+# Xcode
+DerivedData/
+build/
+*.xcworkspace
+*.xcuserstate
+*.xcuserdatad
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+
+# SwiftPM
+.build/
+Packages/
+.swiftpm/
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/
+
+# Fastlane
+fastlane/report.xml
+fastlane/screenshots
+fastlane/test_output
+fastlane/Preview.html
+
+# Swift Package Manager
+Package.resolved
+
+# Logs
+*.log
+
+# DS_Store (macOS)
+.DS_Store
+
+# Arquivos temporários
+*.swp
+*.swo
+
+# Arquivos de backup
+*~
+

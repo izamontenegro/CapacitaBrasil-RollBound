@@ -1,4 +1,4 @@
-
+<img width="1920" height="370" alt="RollBound banner" src="https://github.com/user-attachments/assets/51f4425f-8751-40a1-88e0-23f4455d6886" />
 ## Technologies Used
 
 [![Swift](https://img.shields.io/badge/Swift-F05138?style=flat&logo=swift&logoColor=white)](#)
@@ -6,3 +6,4 @@
 [![Release](https://img.shields.io/badge/-v1.0.0-orange?style=flat&logo=version)](#)
 [![iOS](https://img.shields.io/badge/-17.0%2B-white?style=flat&logo=ios&logoColor=white&labelColor=%23545454&color=%234D9AEC)](#)
 [![App Store](https://img.shields.io/badge/AppStore-white?style=flat&logo=AppStore&logoColor=white&labelColor=%23545454&color=%2311B8AD)](#)
+

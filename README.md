@@ -40,7 +40,4 @@ O foco é velocidade, organização durante as sessões.
 ---
 
 ## 📸 Screenshots
-
-<img width="1242" height="2688" alt="56" src="https://github.com/user-attachments/assets/df7c3fae-438f-4bcf-89d3-af997de35737" />
-<img width="1242" height="2688" alt="55" src="https://github.com/user-attachments/assets/6847856d-5d1d-45d7-b4bf-fb48761a2d40" />
-<img width="1242" height="2688" alt="54" src="https://github.com/user-attachments/assets/eaea86c5-61b2-4b57-9e89-9a2b625921f6" />
+<img width="1920" height="1059" alt="RollBound telas" src="https://github.com/user-attachments/assets/8bf7fc14-e125-4bca-bab0-c3a3fe09bfc0" />

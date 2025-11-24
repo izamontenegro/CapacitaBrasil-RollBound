@@ -27,7 +27,7 @@ O foco é velocidade, organização durante as sessões.
 
 ---
 
-## ✨ Funcionalidades
+## 🎲 Funcionalidades
 
 • Rolagem de dados com múltiplos valores  
 • Histórico persistente  
@@ -39,5 +39,5 @@ O foco é velocidade, organização durante as sessões.
 
 ---
 
-## 📸 Screenshots
+## 📱 Screenshots
 <img width="1920" height="1059" alt="RollBound telas" src="https://github.com/user-attachments/assets/8bf7fc14-e125-4bca-bab0-c3a3fe09bfc0" />

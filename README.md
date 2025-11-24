@@ -1,4 +1,5 @@
-<img width="1920" height="370" alt="RollBound banner" src="https://github.com/user-attachments/assets/51f4425f-8751-40a1-88e0-23f4455d6886" />
+<img width="1920" height="370" alt="RollBound banner" src="https://github.com/user-attachments/assets/51f4425f-8751-40a1-88e0-23f4455d6886"/>
+
 ## Technologies Used
 
 [![Swift](https://img.shields.io/badge/Swift-F05138?style=flat&logo=swift&logoColor=white)](#)

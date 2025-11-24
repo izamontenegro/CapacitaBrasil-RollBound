@@ -8,13 +8,8 @@
 [![iOS](https://img.shields.io/badge/-17.0%2B-white?style=flat&logo=ios&logoColor=white&labelColor=%23545454&color=%234D9AEC)](#)
 [![App Store](https://img.shields.io/badge/AppStore-white?style=flat&logo=AppStore&logoColor=white&labelColor=%23545454&color=%2311B8AD)](#)
 
-<p align="center">
-  <img src="https://img.shields.io/badge/SwiftUI-Declarative%20UI-0F172A?style=for-the-badge&logo=swift&logoColor=white" />
-  <img src="https://img.shields.io/badge/SwiftData-Local%20Persistence-312E81?style=for-the-badge&logo=swift&logoColor=white" />
-  <img src="https://img.shields.io/badge/MVVM-Architecture-111827?style=for-the-badge&logo=buffer&logoColor=white" />
-</p>
-
 Um utilitário rápido e intuitivo para jogadores e mestres de RPG, reunindo rolagem de dados, histórico, skills reutilizáveis e gerenciamento completo de iniciativa.
+
 ---
 
 ## 📌 Sobre o RollBound
@@ -33,6 +28,12 @@ O foco é velocidade, organização durante as sessões.
 ---
 
 ## 🎲 Funcionalidades
+
+<p align="leading">
+  <img src="https://img.shields.io/badge/SwiftUI-Declarative%20UI-0F172A?style=for-the-badge&logo=swift&logoColor=white" />
+  <img src="https://img.shields.io/badge/SwiftData-Local%20Persistence-312E81?style=for-the-badge&logo=swift&logoColor=white" />
+  <img src="https://img.shields.io/badge/MVVM-Architecture-111827?style=for-the-badge&logo=buffer&logoColor=white" />
+</p>
 
 • Rolagem de dados com múltiplos valores  
 • Histórico persistente  
